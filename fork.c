@@ -2,33 +2,47 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <time.h>
+
 int main(){
   srand(time(NULL));
-  int ran = rand() % 25 + 5;
+  int t1 = rand() % 16 + 5;
+  int t2 = rand() % 16 + 5;
   int f1, f2;
   int stat;
 
-  printf("initial message\n");
-
+  printf("Initial Message\n");
+  printf("\n1st Fork\n");
   f1 = fork();
+  
   wait(&stat);
   if (f1 ==0){
-    printf("Child 1: %d\n", getpid());
-    sleep(ran);
-    printf("Child 1 finished. \n");
+    printf("Child PID: %d\n", getpid());
+    sleep(t1);
+    printf("Child with PID of %d is finished. \n", getpid());
+    //printf("Child with PID of %d ran for %d seconds. \n", getpid(), y1);
   }
-  printf("complete child 1 pid : %d \n" , getpid());
-  printf("parent 1 finished\n");
+  else{
+    printf("\nParent PID: %d \n", getppid());
+    printf("Child with PID of %d ran for %d seconds. \n", getpid(), t1);
 
+    printf("Parent with PID of %d finished\n", getppid());
+  }
+
+ printf("\n2nd Fork\n");
   f2 = fork();
+  
   wait(&stat);
   if (f2 == 0){
-    printf("Child 2: %d\n", getpid());
-    sleep(ran);
-    printf("Child 2 finished. \n");
+    printf("Child PID: %d\n", getpid());
+    //t2 = ran;
+    sleep(t2);
+    printf("Child with PID of %d is finished. \n", getpid());
+    //printf("Child with PID of %d ran for %d seconds. \n", getpid(), t2);
   }
-
-  printf("Parent PID:%d\n",getppid());
- 
+  else{
+    printf("\nParent PID:%d\n",getppid());
+    printf("Child with PID of %d ran for %d seconds. \n", getpid(), t2);
+    printf("Parent with PID of %d finished\n", getppid());
+  }
   
 }
